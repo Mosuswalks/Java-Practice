@@ -83,6 +83,21 @@ public class GenericLinkedList<T> implements GenericLLInterface<T> {
 	
 	public void insertMiddle(T data) {
 		
+		GenericNode<T> middleNode = new GenericNode<>(data);
+		GenericNode<T> currentNode = head;
+		int middleIndex = Math.round(size()/2);
+		
+		if(currentNode == null) {
+			currentNode = middleNode;
+			currentNode.setNext(null);
+			return;
+		}else {
+			for(int i = 1; i < middleIndex; i++) {
+				currentNode = currentNode.getNext();
+			}
+			middleNode.setNext(currentNode.getNext());
+			currentNode.setNext(middleNode);
+		}
 	};
 
 }
