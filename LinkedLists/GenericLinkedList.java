@@ -1,26 +1,25 @@
 package genericLinkedList;
-import genericNode.GenericNode;
 
 public class GenericLinkedList<T> implements GenericLLInterface<T> {
-	
+		
 	private GenericNode<T> head;
 	protected String name;
-	
+		
 	public GenericLinkedList(String name){
 		head = null;
 		this.name = name;
 	}
-	
+		
 	public void insert(T data) {
 		GenericNode<T> newNode = new GenericNode<>(data);
 		newNode.setNext(head);
 		head = newNode;
 	};
-	
+		
 	public boolean isFull() {
 		return false;
 	};
-	
+		
 	public int size() {
 		int size = 0;
 		GenericNode<T> currentNode = head;
@@ -31,7 +30,7 @@ public class GenericLinkedList<T> implements GenericLLInterface<T> {
 		}
 		return size;
 	};
-	
+		
 	public boolean contains(T data) {
 		GenericNode<T> currentNode = head;
 		
@@ -44,28 +43,38 @@ public class GenericLinkedList<T> implements GenericLLInterface<T> {
 		return false;
 	};
 	
+	/*
+	 * To clear the LinkedList simply set the head value to null. 
+	 * Because Java has automatic garbage collection, there is no need to remove each element or node.
+	 */
 	public void clear() {
-		GenericNode<T> currentNode = head;
-		
-		while(currentNode != null) {
-			currentNode = head.getNext();
-			currentNode = null;
-		}
+		head = null;
 	};
 	
+	
+	/*
+	 *
+	 */
 	public String toString() {
 		GenericNode<T> currentNode = head;
-		String values = "Linked List Values \n";
-		
+		int count = 0;
+		String values = "List: "+ name + "\nContains \n\n";
+		String nodeValues = "";
+			
 		while(currentNode != null) {
-			values = values + "- "+ currentNode.getData() + "\n";
+			count = count + 1;
+			nodeValues = nodeValues + "" +  count +": "+ currentNode.getData() + "\n";
 			currentNode = currentNode.getNext();
 		}
-		return values;
+		return values + nodeValues;
 	};
 	
+	/*
+	 * 
+	 * 
+	 */
 	public void insertBack(T data) {
-		
+			
 		GenericNode<T> lastNode = new GenericNode<>(data);
 		GenericNode<T> currentNode = head;
 		
@@ -78,9 +87,12 @@ public class GenericLinkedList<T> implements GenericLLInterface<T> {
 				currentNode = currentNode.getNext();
 			}
 			currentNode.setNext(lastNode);
-		}
+			}
 	};
 	
+	/*
+	*
+	*/
 	public void insertMiddle(T data) {
 		
 		GenericNode<T> middleNode = new GenericNode<>(data);
@@ -99,5 +111,20 @@ public class GenericLinkedList<T> implements GenericLLInterface<T> {
 			currentNode.setNext(middleNode);
 		}
 	};
-
+	
+	public GenericLinkedList<Object> appendLists(T list1, T list2, T list3) {
+		GenericLinkedList<Object> W = new GenericLinkedList<>("W");
+		
+		W.insert(list1);
+		W.insert(list2);
+		W.insert(list3);
+		
+		return W;
+	}
+	
+	public void reverseLinkedList() {
+		GenericNode<T> currentNode = head;
+		
+		
+	}
 }
