@@ -1,28 +1,43 @@
-package genericLinkedList;
 
-public class GenericLinkedList<T> implements GenericLLInterface<T> {
-		
-	private GenericNode<T> head;
+
+package linkedLists;
+
+public class LinkedLists<T> implements LinkedListsInterface<T> {
+	
+	// Creating a Node object for the head value and a String for list name
+	private Node<T> head;
 	protected String name;
-		
-	public GenericLinkedList(String name){
+	
+	/*
+	* Constructor
+	*/
+	public LinkedLists(String name){
 		head = null;
 		this.name = name;
 	}
-		
+	
+	/*
+	* Creates a new Node and sets its next value to head. The new Node is then set as the head of the list.
+	*/
 	public void insert(T data) {
-		GenericNode<T> newNode = new GenericNode<>(data);
+		Node<T> newNode = new Node<>(data);
 		newNode.setNext(head);
 		head = newNode;
 	};
-		
+	
+	/*
+	* Always returns false since a Linked Lists can never be full(memory permitting).
+	*/
 	public boolean isFull() {
 		return false;
 	};
-		
+	
+	/*
+	* Transverses the list while keeping count of each node which does not equal Null.
+	*/
 	public int size() {
 		int size = 0;
-		GenericNode<T> currentNode = head;
+		Node<T> currentNode = head;
 		
 		while(currentNode != null) {
 			size = size + 1;
@@ -30,9 +45,11 @@ public class GenericLinkedList<T> implements GenericLLInterface<T> {
 		}
 		return size;
 	};
-		
+	/*
+	* Transverses the LinkedList and checks each Nodes value for the parameter being passed through. 
+	*/
 	public boolean contains(T data) {
-		GenericNode<T> currentNode = head;
+		Node<T> currentNode = head;
 		
 		while(currentNode != null) {
 			if((currentNode.getData()).equals(data)) {
@@ -53,10 +70,10 @@ public class GenericLinkedList<T> implements GenericLLInterface<T> {
 	
 	
 	/*
-	 *
+	 * Transverse the Linked List until
 	 */
 	public String toString() {
-		GenericNode<T> currentNode = head;
+		Node<T> currentNode = head;
 		int count = 0;
 		String values = "List: "+ name + "\nContains \n\n";
 		String nodeValues = "";
@@ -70,13 +87,13 @@ public class GenericLinkedList<T> implements GenericLLInterface<T> {
 	};
 	
 	/*
-	 * 
-	 * 
+	 * Transverses the list until a null value is reached,
+	 * and then sets the currentNodes next value to the newly created node.
 	 */
 	public void insertBack(T data) {
 			
-		GenericNode<T> lastNode = new GenericNode<>(data);
-		GenericNode<T> currentNode = head;
+		Node<T> lastNode = new Node<>(data);
+		Node<T> currentNode = head;
 		
 		if(currentNode == null) {
 			currentNode = lastNode;
@@ -91,12 +108,13 @@ public class GenericLinkedList<T> implements GenericLLInterface<T> {
 	};
 	
 	/*
-	*
+	* Divides the size by 2 and inserts the node at the middle value.
+	* Connects the middle node to currentNodes next and currentNode to middleNode.
 	*/
 	public void insertMiddle(T data) {
 		
-		GenericNode<T> middleNode = new GenericNode<>(data);
-		GenericNode<T> currentNode = head;
+		Node<T> middleNode = new Node<>(data);
+		Node<T> currentNode = head;
 		int middleIndex = Math.round(size()/2);
 		
 		if(currentNode == null) {
@@ -112,19 +130,43 @@ public class GenericLinkedList<T> implements GenericLLInterface<T> {
 		}
 	};
 	
-	public GenericLinkedList<Object> appendLists(T list1, T list2, T list3) {
-		GenericLinkedList<Object> W = new GenericLinkedList<>("W");
-		
-		W.insert(list1);
-		W.insert(list2);
-		W.insert(list3);
-		
-		return W;
-	}
 	
-	public void reverseLinkedList() {
-		GenericNode<T> currentNode = head;
+	/*
+	 * Solution to COMP2080 Data Structures and Algorithms Lab Test 1C
+	 */
+	public T locateConvergence(LinkedLists<T> listL, LinkedLists<T> listM) {
 		
+		// 1. Using the size() method, Get the size/length of both lists and store them into separate variables.
+		int sizeOfL = listL.size();
+		int sizeOfM = listM.size();
+		
+		// 2. Store a reference of each lists head into Node Objects. 
+		Node<T> listLHead = listL.head;
+		Node<T> listMHead = listM.head;
+		
+		// 3. Utilize a while loop to ensure that the lists are aligned at the same starting point. 
+		while(sizeOfL > sizeOfM) {
+			listMHead = listLHead.getNext();
+			sizeOfL--;
+		}
+		while(sizeOfL < sizeOfM) {
+			listMHead = listMHead.getNext();
+			sizeOfM--;
+		}
+		
+		// 4. Transverse both lists simultaneously until node values match.
+		while(listLHead.getData() != listMHead.getData()) {
+			listLHead = listLHead.getNext();
+			listMHead = listMHead.getNext();	
+		}
+		
+		// 5. If we have a match, return the data else return null.
+		if(listLHead.getData().equals(listMHead.getData())) {
+			return listLHead.getData();
+		}
+		else {
+			return null;
+		}
 		
 	}
 }
